@@ -4,8 +4,8 @@ from sender import MailSender
 
 
 def main():
-    email_sender = "aponwasikahmed@gmail.com"
-    email_password = os.environ.get("MAIL_SENDER_PASS")
+    email_sender = os.environ.get('EMAIL_USER')
+    email_password = os.environ.get("EMAIL_PASSWORD")
 
     mailer = MailSender(email_sender, email_password)
     mailer.add_receivers_from_file("recipients.txt")
