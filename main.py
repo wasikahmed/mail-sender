@@ -1,24 +1,20 @@
 import os
-from email.message import EmailMessage
-import ssl
-import  smtplib
+
+from sender import MailSender
 
 
-email_sender = "aponwasikahmed@gmail.com"
-email_password = os.environ.get('MAIL_SENDER_PASS')
-email_receiver = "apon.wasik2001@gmail.com"
+def main():
+    email_sender = "aponwasikahmed@gmail.com"
+    email_password = os.environ.get("MAIL_SENDER_PASS")
 
-subject = "Test Email"
-body = "This is a test email"
+    mailer = MailSender(email_sender, email_password)
+    mailer.add_receivers_from_file("recipients.txt")
 
-em = EmailMessage()
-em['From'] = email_sender
-em['To'] = email_receiver
-em['Subject'] = subject
-em.set_content(body)
+    subject = "Welcome to Mail Sender"
+    body = "This is a test email sent to multiple recipients."
+    mailer.create_email(subject, body)
+    mailer.send_email()
 
-context = ssl.create_default_context()
 
-with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
-    smtp.login(email_sender, email_password)
-    smtp.sendmail(email_sender, email_receiver, em.as_string())
+if __name__ == "__main__":
+    main()
